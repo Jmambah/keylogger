@@ -9,4 +9,4 @@ First off, you need to install your dependencies on your Linux or Windows Distri
 
 # Execute the code
 
-sudo python keylogger.py
+python ./keylogger.py
